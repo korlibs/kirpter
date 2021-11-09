@@ -1,4 +1,4 @@
-# kotlin-ir-plugin-adapter-gradle
+# kirpter
 
 The purpose of this repo is to create a gradle plugin that supports loading kotlin compiler plugins in an easy way compatible with:
 
@@ -14,4 +14,5 @@ The idea is to create plugins like this one:
 
 <https://github.com/korlibs/korge-next/pull/389>
 
-In a way that can be declared as a gradle module and used in other modules in the same project, in addition to only require one artifact for the plugin, and not requiring extra gradle plugins like this one.
+In a way that can be declared as a gradle module and used in other modules in the same project, 
+in addition to only require one artifact for the plugin, and not requiring extra gradle plugins like this one.
