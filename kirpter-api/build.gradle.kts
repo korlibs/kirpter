@@ -15,3 +15,15 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
 	testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.5")
 }
+
+publishing {
+	publications {
+		create<MavenPublication>("maven") {
+			groupId = project.group.toString()
+			artifactId = project.name
+			version = project.version.toString()
+
+			from(components["java"])
+		}
+	}
+}
