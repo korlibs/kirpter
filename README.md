@@ -1,0 +1,1 @@
+# kotlin-ir-plugin-adapter-gradle
