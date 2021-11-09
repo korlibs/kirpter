@@ -14,11 +14,13 @@ import java.util.*
 class KirpterProxyComponentRegistrar : ComponentRegistrar {
 	override fun registerProjectComponents(project: MockProject, configuration: CompilerConfiguration) {
 		val config = configuration[KirpterConfig.KEY, KirpterConfig()]
-		val classLoader = URLClassLoader(config.processingClasspath.map { it.toURI().toURL() }.toTypedArray(), javaClass.classLoader)
+		val classPathURLs = config.processingClasspath.map { it.toURI().toURL() }
+		val classLoader = URLClassLoader(classPathURLs.toTypedArray(), javaClass.classLoader)
 		val plugins = ServiceLoaderLite.loadImplementations(KirpterPlugin::class.java, classLoader)
 
-		val messageCollector = configuration.get(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE)
-		val context = KirpterContext(messageCollector)
+		val context = KirpterContext(configuration, config)
+
+		//messageCollector.report(CompilerMessageSeverity.ERROR, "KirpterProxyComponentRegistrar.registerProjectComponents: $plugins, classPath=$classPathURLs")
 
 		for (plugin in plugins) {
 			plugin.createGeneratorExtension(context)?.let { IrGenerationExtension.registerExtension(project, it) }

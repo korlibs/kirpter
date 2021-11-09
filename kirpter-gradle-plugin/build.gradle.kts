@@ -4,7 +4,7 @@ plugins {
 	kotlin("jvm")
 	`maven-publish`
 	//id("com.gradle.plugin-publish")
-	id("com.github.gmazzo.buildconfig") version "3.0.3"
+	id("com.github.gmazzo.buildconfig")
 }
 
 description = "Kotlin IR Plugin Adapter Gradle Plugin"
@@ -21,7 +21,7 @@ sourceSets.main {
 	java.srcDirs("src/main/kotlin")
 }
 
-val pluginID = "com.soywiz.kirpter"
+val pluginID: String by project
 
 gradlePlugin {
 	plugins {

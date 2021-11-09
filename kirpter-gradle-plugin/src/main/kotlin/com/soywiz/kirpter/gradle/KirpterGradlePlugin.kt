@@ -1,19 +1,20 @@
 package com.soywiz.kirpter.gradle
 
 import org.gradle.api.*
+import org.gradle.api.artifacts.*
 import org.gradle.api.provider.*
 import org.jetbrains.kotlin.gradle.plugin.*
 
+@Suppress("unused")
 class KirpterGradlePlugin : KotlinCompilerPluginSupportPlugin {
 	override fun apply(target: Project) {
-		target.configurations.maybeCreate("kripter")
+		println("KirpterGradlePlugin.apply")
+		target.configurations.maybeCreate("kirpter")
 	}
 
-	override fun getCompilerPluginId(): String = "com.soywiz.kirpter"
+	override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean = true
 
-	override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
-		return true
-	}
+	override fun getCompilerPluginId(): String = BuildConfig.KOTLIN_PLUGIN_ID
 
 	override fun getPluginArtifact(): SubpluginArtifact {
 		return SubpluginArtifact(
@@ -26,16 +27,25 @@ class KirpterGradlePlugin : KotlinCompilerPluginSupportPlugin {
 	override fun getPluginArtifactForNative(): SubpluginArtifact = getPluginArtifact()
 
 	override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
-		val project = kotlinCompilation.target.project
-		//println("KDynLibGradlePlugin.applyToCompilation")
-		kotlinCompilation.dependencies {
-			//implementation("com.soywiz.korlibs.kdynlib:kdynlib-jvm:$VERSION")
-		}
-		return project.provider {
-			listOf(
-				SubpluginOption("targetName", kotlinCompilation.target.name),
-				FilesSubpluginOption("apclasspath", project.configurations.maybeCreate("kripter").toList()),
-			)
-		}
+		val target = kotlinCompilation.target
+		val project = target.project
+		println("KDynLibGradlePlugin.applyToCompilation: '${target.platformType}'")
+
+		val options = listOf(
+			SubpluginOption("targetName", target.targetName),
+			SubpluginOption("platformType", target.platformType.toString()),
+			FilesSubpluginOption("apclasspath", project.configurations.maybeCreate("kirpter").toList()),
+		)
+
+		val config: Configuration = project.configurations.maybeCreate("kirpter")
+
+		//println(config.buildDependencies)
+
+		kotlinCompilation.compileKotlinTask.dependsOn(config.buildDependencies)
+
+		//println("applyToCompilation: $options")
+		//println(": ${project.configurations.maybeCreate("kirpter").toList()}")
+
+		return project.provider { options }
 	}
 }
