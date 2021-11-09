@@ -6,34 +6,36 @@ import org.jetbrains.kotlin.gradle.plugin.*
 
 class KirpterGradlePlugin : KotlinCompilerPluginSupportPlugin {
 	override fun apply(target: Project) {
+		target.configurations.maybeCreate("kripter")
 	}
 
 	override fun getCompilerPluginId(): String = "com.soywiz.kirpter"
 
 	override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
-		//println("KDynLibGradlePlugin.isApplicable: $kotlinCompilation")
 		return true
-		//return kotlinCompilation.platformType == KotlinPlatformType.js
 	}
-
-	val VERSION = "2.0.0.999" // @TODO: Fix this
 
 	override fun getPluginArtifact(): SubpluginArtifact {
 		return SubpluginArtifact(
-			groupId = "com.soywiz.kirpter",
-			artifactId = "kirpter-proxy",
-			version = VERSION
+			groupId = BuildConfig.ARTIFACT_GROUP,
+			artifactId = BuildConfig.ARTIFACT_NAME,
+			version = BuildConfig.ARTIFACT_VERSION
 		)
 	}
 
 	override fun getPluginArtifactForNative(): SubpluginArtifact = getPluginArtifact()
 
 	override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
+		val project = kotlinCompilation.target.project
 		//println("KDynLibGradlePlugin.applyToCompilation")
 		kotlinCompilation.dependencies {
-			implementation("com.soywiz.korlibs.kdynlib:kdynlib-jvm:$VERSION")
+			//implementation("com.soywiz.korlibs.kdynlib:kdynlib-jvm:$VERSION")
 		}
-		val project = kotlinCompilation.target.project
-		return project.provider { listOf(SubpluginOption("targetName", kotlinCompilation.target.name)) }
+		return project.provider {
+			listOf(
+				SubpluginOption("targetName", kotlinCompilation.target.name),
+				FilesSubpluginOption("apclasspath", project.configurations.maybeCreate("kripter").toList()),
+			)
+		}
 	}
 }
