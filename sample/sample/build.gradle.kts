@@ -2,7 +2,6 @@ val kirpterVersion: String by project
 
 plugins {
 	kotlin("jvm")
-	kotlin("kapt")
 	id("com.soywiz.kirpter")
 	application
 }

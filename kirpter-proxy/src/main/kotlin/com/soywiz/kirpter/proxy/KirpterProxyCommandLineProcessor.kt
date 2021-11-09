@@ -14,7 +14,7 @@ class KirpterProxyCommandLineProcessor : CommandLineProcessor {
 	override fun processOption(option: AbstractCliOption, value: String, configuration: CompilerConfiguration) {
 		val config = configuration[KirpterConfig.KEY] ?: KirpterConfig().also { configuration.put(KirpterConfig.KEY, it) }
 
-		val messageCollector = configuration[CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE]
+		//val messageCollector = configuration[CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE]
 		//messageCollector!!.report(CompilerMessageSeverity.ERROR, "KirpterProxyCommandLineProcessor.processOption: $option, $value")
 
 		when (option) {

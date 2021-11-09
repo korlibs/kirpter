@@ -4,11 +4,12 @@ import org.gradle.api.*
 import org.gradle.api.artifacts.*
 import org.gradle.api.provider.*
 import org.jetbrains.kotlin.gradle.plugin.*
+import java.util.logging.*
 
 @Suppress("unused")
 class KirpterGradlePlugin : KotlinCompilerPluginSupportPlugin {
 	override fun apply(target: Project) {
-		println("KirpterGradlePlugin.apply")
+		target.logger.info("KirpterGradlePlugin.apply")
 		target.configurations.maybeCreate("kirpter")
 	}
 
@@ -29,7 +30,7 @@ class KirpterGradlePlugin : KotlinCompilerPluginSupportPlugin {
 	override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
 		val target = kotlinCompilation.target
 		val project = target.project
-		println("KDynLibGradlePlugin.applyToCompilation: '${target.platformType}'")
+		project.logger.info("KDynLibGradlePlugin.applyToCompilation: '${target.platformType}'")
 
 		val options = listOf(
 			SubpluginOption("targetName", target.targetName),

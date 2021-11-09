@@ -1,6 +1,5 @@
 plugins {
 	java
-	`java-gradle-plugin`
 	kotlin("jvm")
 	`maven-publish`
 	id("com.github.gmazzo.buildconfig")
@@ -8,12 +7,13 @@ plugins {
 
 description = "Kotlin IR Plugin Adapter Proxy"
 
+val kotlinVersion: String by project
+
 dependencies {
 	api(project(":kirpter-api"))
 	api(kotlin("stdlib"))
-	compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable")
 	testImplementation(kotlin("test-junit"))
-	testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
+	testImplementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
 	testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.5")
 }
 
