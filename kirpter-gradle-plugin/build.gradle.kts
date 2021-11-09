@@ -10,6 +10,7 @@ plugins {
 description = "Kotlin IR Plugin Adapter Gradle Plugin"
 
 dependencies {
+	api(project(":kirpter-api"))
 	api(kotlin("stdlib"))
 	implementation(kotlin("gradle-plugin-api"))
 	compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable")

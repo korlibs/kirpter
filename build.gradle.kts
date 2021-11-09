@@ -2,13 +2,12 @@ plugins {
 }
 
 allprojects {
+	group = "com.soywiz.kirpter"
 	repositories {
 		mavenLocal()
 		mavenCentral()
 	}
 }
-
-group = "com.soywiz.kotlin-ir-plugin-adapter-gradle"
 
 /*
 //buildConfig {

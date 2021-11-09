@@ -19,10 +19,9 @@ class KirpterGradlePlugin : KotlinCompilerPluginSupportPlugin {
 	val VERSION = "2.0.0.999" // @TODO: Fix this
 
 	override fun getPluginArtifact(): SubpluginArtifact {
-		//println("KDynLibGradlePlugin.getPluginArtifact")
 		return SubpluginArtifact(
-			groupId = "com.soywiz.korlibs.kdynlib.irplugin",
-			artifactId = "kdynlib-gradle-plugin",
+			groupId = "com.soywiz.kirpter",
+			artifactId = "kirpter-proxy",
 			version = VERSION
 		)
 	}

@@ -2,6 +2,7 @@ rootProject.name = "kirpter-root"
 
 include(":kirpter-api")
 include(":kirpter-gradle-plugin")
+include(":kirpter-proxy")
 
 pluginManagement {
 	repositories {
